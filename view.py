@@ -5,6 +5,21 @@ def main ():
     sala = model.sala
     lugares_sala = model.lugares_sala
     valor_bilheteira = model.Valor_bilheteira
+    print("Bem vindo ao teatro")
+    print("A sala tem {} lugares".format(sala))
+    print("Os lugares disponiveis sao:")
+    for lugares in lugares_sala:
+        print(lugares)
+    print("O valor do bilheteira e de {}".format(valor_bilheteira))
+    print("Para reservar lugares digite 'RL'")
+    print("Para eliminar reserva digite 'ER'")
+    print("Para alterar reserva digite 'AR'")
+    print("Para sair digite 'sair'")
+
+
+
+
+
     while True:
         try:
             comandos = input().split(" ")
