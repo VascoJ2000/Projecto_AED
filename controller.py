@@ -1,158 +1,182 @@
 import model
-import view
 
 
-def consultare_lugares():
-    return
-
-
-def reservar_lugares(lugares):
-    for lugares in model.lugares_sala:
-        if len(lugares) == 0:
-            return False
-        else:
-            return lugares
-
-
-def __init__(self):
-    pass
-
-
-def valido_letra(letra):
-    if str(letra) in model.filas:
+def valido_letra (letra):  # Verifica se a letra é válida
+    if letra in model.filas:
         return True
 
 
-def valido_numero(numero):
+def valido_numero(letra, numero):     # Verifica se o número é válido
     if int(numero) < 0:
         return False
 
-    elif numero in model.numero_lugar:
+    elif letra in model.filas_especiais and numero in model.numero_nao_lugarFA:     # Verifica se o número é válido para a fila especial
+        return False
+
+    elif numero in model.numero_lugar:                                 # Verifica se o número é válido para a fila normal
         return True
 
     else:
         if int(numero) > 14:
-            return False
+            return False 
 
 
-def dicionario_res(self, v1, v2):
-    self.value = [self.chave, 'fileira:', v1, 'cadeira', v2]
+def Validar_data(data):
+    if data in model.Datas == True:
+        return True
 
 
-def dicionario_canc(self, v1, v2):
-    self.value = ['fileira:', v1, 'cadeira', v2]
-    for self.x in self.dic.values():
-        if self.value in self.x:
-            self.chave = self.x[0][0]
-
-
-def nome(self):
-    self.name = self.name.title()
-    self.name = self.name.strip()
-    self.chave = self.name
-
-
-def teatro(self, fileira, cadeira):
-    self.f = fileira
-    self.c = cadeira
-    self.total = self.f * self.c
-    self.disponivel = self.total
-    self.dic = {}
-
-    self.matriz = []
-    for i in range(fileira):
-        self.fileira1 = []
-        for i in range(cadeira):
-            self.fileira1.append('Vago')
-        self.matriz.append(self.fileira1)
-
-
-def reserva(self, letra, numero, escolhafil, escolhacad):
-    while True:
-        try:
-            if "Ocupado" in self.matriz[escolhafil - 1][escolhacad - 1]:
-                print("\n Este local Já esta Ocupado, Operação invalida !!! \n")
-                break
-        except IndexError:
-            print('valor fora do range fileira ou cadeira inexistente')
-            self.fil = (input('Digite uma letra de uma Fileira existente: '))
-            escolhafil = self.valido(self.fil)
-            self.cad = (input('Digite um numero de uma Cadeira existente: '))
-            escolhacad = self.valido(self.cad)
-        else:
-            self.matriz[escolhafil - 1][escolhacad - 1] = "Ocupado"
-            self.disponivel -= 1
-            self.dicionario_res(escolhafil, escolhacad)
-            self.dic[self.chave] = self.value
-            print("\n RESERVA EXECUTADA !! \n")
-            self.next = 1
-            break
-
-
-def cancela(self, escolhafil, escolhacad, letra, numero):
-    self.next = 0
-    while True:
-        try:
-            if "Vago" in self.matriz[escolhafil - 1][escolhacad - 1]:
-                print("\n Este local já esta Vago, Operação invalida !!!")
-                break
-        except IndexError:
-            print('valor fora do range fileira ou cadeira inexistente')
-            self.fil = (input('Digite uma letra de uma Fileira existente: '))
-            escolhafil = self.valido(self.fil, letra)
-            self.cad = (input('Digite um numero de uma Cadeira existente: '))
-            escolhacad = self.valido(self.cad, numero)
-
-        else:
-            self.dicionario_canc(escolhafil, escolhacad)
-            print("Deseja cancelar a reserva de:", self.dic[self.chave], " S / N ? ")
-            self.apaga = (input(": "))
-            if 'S' in (self.apaga.upper()):
-                self.matriz[escolhafil - 1][escolhacad - 1] = "Vago"
-                self.disponivel += 1
-                self.dic.pop(self.chave)
-                print("\n RESERVA CANCELADA !! \n")
-                self.proximo = 1
-                break
-            elif 'N' in (self.apaga.upper()):
-                print(" \n Reserva Mantida !!!")
-                break
-            else:
-                print("\n Não Valido tente Novamente !!!")
-
-
-def busca(self, nm):
-    self.name = str(nm)
-    self.nome()
-    return self.dic.get(self.chave)
-
-
-def reset(self, reset):
-    if 'S' in (reset.upper()):
-        self.teatro(self.f, self.c)
-        print(" \n CONTROLE RESETADO !!!")
-    elif 'N' in (reset.upper()):
-        print(" \n Reset Cancelado !!!")
+def verificar_lugares_reservados(letra, numero, data):     # Verifica se o lugar já está reservado
+    lugares = letra + numero + data
+    if lugares in model.Lugares_reservados27 or lugares in model.Lugares_reservados12 or lugares in model.Lugares_reservados29 or lugares in model.Lugares_reservados10 or lugares in model.Lugares_reservados13 or lugares in model.Lugares_VIP_Reservado27 or lugares in model.Lugares_VIP_Reservado12 or lugares in model.Lugares_VIP_Reservado29 or lugares in model.Lugares_VIP_Reservado10 or lugares in model.Lugares_VIP_Reservado13:
+        return False
     else:
-        print("\n Não Valido tente Novamente !!!")
+        return True
 
 
-def getProximo(self):
-    return self.next
+def reservar_lugares(letra, numero, data):     # Reserva os lugares
+    lugares = letra + numero + data
+    if data == "27/07/2022" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == True:  
+        model.Lugares_VIP_Reservado27.append(lugares)
+
+    elif data == "12/08/2022" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_VIP_Reservado12.append(lugares)
+
+    elif data == "29/09/2022" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == True: 
+        model.Lugares_VIP_Reservado29.append(lugares)
+
+    elif data == "10/01/2023" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == True: 
+        model.Lugares_VIP_Reservado10.append(lugares)
+
+    elif data == "13/02/2023" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_VIP_Reservado13.append(lugares)
+
+    elif data == "27/07/2022" and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_reservados27.append(lugares)
+
+    elif data == "12/08/2022" and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_reservados12.append(lugares)
+    
+    elif data == "29/09/2022" and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_reservados29.append(lugares)
+    
+    elif data == "10/01/2023" and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_reservados10.append(lugares)
+
+    elif data == "13/02/2023" and verificar_lugares_reservados(letra, numero, data) == True:
+        model.Lugares_reservados13.append(lugares)
+    
+
+def eliminar_lugar_reservado(letra, numero, data):     # Elimina os lugares reservados
+    lugares = letra + numero + data
+    if data == "27/07/2022" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == False:  
+        model.Lugares_VIP_Reservado27.remove(lugares)
+
+    elif data == "12/08/2022" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_VIP_Reservado12.remove(lugares)
+
+    elif data == "29/09/2022" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == False: 
+        model.Lugares_VIP_Reservado29.remove(lugares)
+
+    elif data == "10/01/2023" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == False: 
+        model.Lugares_VIP_Reservado10.remove(lugares)
+
+    elif data == "13/02/2023" and numero in model.numero_VIP and letra in model.filas_especiais and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_VIP_Reservado13.remove(lugares)
+
+    elif data == "27/07/2022" and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_reservados27.remove(lugares)
+
+    elif data == "12/08/2022" and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_reservados12.remove(lugares)
+    
+    elif data == "29/09/2022" and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_reservados29.remove(lugares)
+    
+    elif data == "10/01/2023" and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_reservados10.remove(lugares)
+
+    elif data == "13/02/2023" and verificar_lugares_reservados(letra, numero, data) == False:
+        model.Lugares_reservados13.remove(lugares)
+        
+
+def contar_valor(data):                   # Conta o valor dos lugares reservados
+    if data == "27/07/2022":
+        valorVIP = len(model.Lugares_VIP_Reservado27) * 12 
+        valor = len(model.Lugares_reservados27) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "12/08/2022":
+        valorVIP = len(model.Lugares_VIP_Reservado12) * 12 
+        valor = len(model.Lugares_reservados12) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+    
+    elif data == "29/09/2022":
+        valorVIP = len(model.Lugares_VIP_Reservado29) * 12 
+        valor = len(model.Lugares_reservados29) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "10/01/2023":
+        valorVIP = len(model.Lugares_VIP_Reservado10) * 12 
+        valor = len(model.Lugares_reservados10) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "13/02/2023":
+        valorVIP = len(model.Lugares_VIP_Reservado13) * 12 
+        valor = len(model.Lugares_reservados13) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "07/22":
+        valorVIP = len(model.Lugares_VIP_Reservado27) * 12 
+        valor = len(model.Lugares_reservados27) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "08/22":
+        valorVIP = len(model.Lugares_VIP_Reservado12) * 12 
+        valor = len(model.Lugares_reservados12) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "09/22":
+        valorVIP = len(model.Lugares_VIP_Reservado29) * 12 
+        valor = len(model.Lugares_reservados29) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "01":
+        valorVIP = len(model.Lugares_VIP_Reservado10) * 12 
+        valor = len(model.Lugares_reservados10) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "02":
+        valorVIP = len(model.Lugares_VIP_Reservado13) * 12 
+        valor = len(model.Lugares_reservados13) * 4
+        print(f"\nValor da bilheteira é: {valor + valorVIP}€.\n")
+
+    elif data == "2022":
+        valorvip27 = len(model.Lugares_VIP_Reservado27)
+        valorvip12 = len(model.Lugares_VIP_Reservado12)
+        valorvip29 = len(model.Lugares_VIP_Reservado29)
+
+        valor27 = len(model.Lugares_reservados27)
+        valor12 = len(model.Lugares_reservados12)
+        valor29 = len(model.Lugares_reservados29)
+        valor = ((valorvip27 + valorvip12 + valorvip29) * 12 + (valor27 + valor12 + valor29) * 4)
+        print(f"\nValor da bilheteira é: {valor}€.\n")
+    
+    elif data == "2023":
+        valorvip10 = len(model.Lugares_VIP_Reservado10)
+        valorvip13 = len(model.Lugares_VIP_Reservado13)
+       
+        valor10 = len(model.Lugares_reservados10)
+        valor13 = len(model.Lugares_reservados13)
+       
+        valor = ((valorvip10 + valorvip13) * 12 + (valor10 + valor13) * 4)
+        print(f"\nValor da bilheteira é: {valor}€.\n")
+        
+    
+    
 
 
-def getMatriz(self):
-    return self.matriz
+    
 
-    # parte Exibir a matriz com os lugares vagos ou ocupados
-
-    def exibirMatriz(self):
-        for fileiras in range(len(self.matriz)):
-            print("\nFILEIRA", fileiras + 1)
-            for cadeiras in range(len(self.matriz[0])):
-                print("Cadeira", cadeiras + 1, '(',
-                      self.matriz[fileiras][cadeiras], ')', end="  /  ")
-            print('\n')
-
-        print('\nCapacitade Maxima: ', self.total, 'Lugares')
-        print('Lugares Disponiveis: ', self.disponivel, '\n')
+      
+        
